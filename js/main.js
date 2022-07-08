@@ -46,8 +46,6 @@ function setCardTime() {
       return circleImg.src = img;
     };
 
-    console.log(setCircleImg('/img/sun-morning.png'))
-
     if (hours < 12) {
       greeting.innerHTML = 'Good Morning';
       setCircleImg('/img/sun-morning.png');
