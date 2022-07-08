@@ -1,14 +1,30 @@
 function setCardTime() {
-  const currentDate = new Date();
-  const getYear = currentDate.getFullYear();
-  const getHours = currentDate.getHours();
-  const getMinutes = currentDate.getMinutes();
-  const getDay = currentDate.getDay();
-  const getDate = currentDate.getDate();
-  const getMonth = currentDate.getMonth();
-  const currentTime = `${getHours}:${getMinutes}`;
+  function getCurrentDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const day = currentDate.getDay();
+    const date = currentDate.getDate();
+    const month = currentDate.getMonth();
+    const hourP = document.querySelector('.hour');
 
-  function getNameDays (numberDays) {
+    const currentTime = `${setZeroLeft(hours)}:${setZeroLeft(minutes)}`;
+    hourP.innerHTML = currentTime;
+
+    getDayTime(day, month, date, year, hours)
+  }
+  getCurrentDate()
+
+  setInterval(() => {
+    getCurrentDate();
+  }, 1000 * 60);
+
+  function setZeroLeft(number) {
+    return number < 10 ? `0${number}` : `${number}`;
+  }
+
+  function getNameDays(numberDays) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     return days[numberDays]
   };
@@ -18,47 +34,41 @@ function setCardTime() {
     return months[numberMonths]
   };
 
-  function getDayTime() {
+  function getDayTime(day, month, date, year, hours) {
     const card = document.querySelector('#card');
     const greeting = document.querySelector('.greeting');
-    const circleDiv = document.querySelector('.circle');
-    const hour = document.querySelector('.hour');
-    const date = document.querySelector('.date');
+    const dateP = document.querySelector('.date');
 
-    hour.innerHTML = currentTime;
-    date.innerHTML = `Today is ${getNameDays(getDay)}, ${getNameMonths(getMonth)} ${getDate}, ${getYear}`;
+    dateP.innerHTML = `Today is ${getNameDays(day)}, ${getNameMonths(month)} ${date}, ${year}`;
 
     function setCircleImg(img) {
-      const circleImg = document.createElement('img');
-      circleDiv.appendChild(circleImg);
+      const circleImg = document.querySelector('.circle-img');
       return circleImg.src = img;
     };
 
-    if (getHours < 12) {
+    console.log(setCircleImg('/img/sun-morning.png'))
+
+    if (hours < 12) {
       greeting.innerHTML = 'Good Morning';
       setCircleImg('/img/sun-morning.png');
       card.style.backgroundImage = "url('/img/bg-morning.jpg')";
     };
 
-    if (getHours >= 12 && getHours < 18) {
+    if (hours >= 12 && hours < 18) {
       greeting.innerHTML = 'Good Afternoon';
       setCircleImg('/img/sun-afternoon.png');
       card.style.backgroundImage = "url('/img/bg-afternoon.jpg')";
     };
 
-    if (getHours >= 18) {
-      greeting.innerHTML = 'Good Morning';
+    if (hours >= 18) {
+      greeting.innerHTML = 'Good Evening';
       setCircleImg('/img/moon-evening.png');
       card.style.backgroundImage = "url('/img/bg-evening.jpg')";
     };
   };
-  getDayTime()
-
-  console.log(currentTime)
-
-  console.log(`Today is ${getNameDays(getDay)}, ${getNameMonths(getMonth)} ${getDate}, ${getYear}`)
 }
 setCardTime();
+
 
 
 
